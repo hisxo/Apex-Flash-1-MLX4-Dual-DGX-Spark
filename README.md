@@ -17,10 +17,10 @@ holders.
 | Source | `cantina-security/apex-flash-1-abliterated` at `cecb5eeb9c6b32404a0dd930df81de2c239bdd84` |
 | Layout reference | `TensorFold/GLM-5.3-Flash-MLX-4bit-MTP` at `d2b17f5253440224422b150705c1109a9a3a0368` |
 | Format | MLX affine 4-bit, groups of 64, BF16 scales and biases |
-| Runtime | TensorFold 0.6.4 at `6ea5ade26c4335491c50275af0be32b81f75f525` |
+| Runtime | TensorFold 0.6.4 at `6ea5ade26c4335491c50275af0be32b81f75f525` (upstream profile) |
 | Hardware | 2 × DGX Spark, tensor parallelism 2 |
-| Serving | OpenAI-compatible, text only |
-| Configured context | 262,144 tokens |
+| Serving | OpenAI-compatible |
+| Qualified profiles | 262,144 text-only; experimental 360,000 with image input |
 
 The source tensor data is approximately 599 GiB. The converted checkpoint is
 approximately 169 GiB.
@@ -164,6 +164,34 @@ explicitly in `config.env`; its CC BY-NC-ND 4.0 terms must be reviewed first.
 TensorFold 0.6.4 does not support GLM-5.3-Flash image input on CUDA. The
 262,144-token value is a deployment configuration, not a blanket claim that
 every workload has been qualified at the maximum window.
+
+### Experimental vision + 360K profile
+
+[`deploy/vision-360k`](deploy/vision-360k) contains the separately pinned
+profile used to validate image input and a 360,000-token window on the same
+converted checkpoint. It keeps the latent/indexer cache in BF16 and the vision
+tower in BF16; DFlash2 supplies speculative drafts while the resident MTP head
+is omitted. No FP8 cache fallback was needed.
+
+This profile uses a public, patched TensorFold 0.5.0 CUDA vision runtime because
+the upstream 0.6.4/0.6.5 GLM CUDA path is text-only. A small compatibility patch
+accepts the native media branch already present in Cantina's chat template; it
+does not replace the template's reasoning or tool logic.
+
+Observed admission and smoke-test receipt:
+
+| Item | Result |
+| --- | --- |
+| Context reported by `/health` | 360,000 tokens |
+| Rank 0 estimate / budget | 92.24 / 99.21 GiB |
+| Rank 1 estimate / budget | 91.10 / 99.71 GiB |
+| Text check | exact `OK` |
+| Image check | exact `CORNER CAFE \| 22.50`; 285 visual rows |
+| Post-check `MemAvailable` | approximately 19 / 21 GiB |
+
+This qualifies configuration admission, startup, text generation and image
+encoding. It does not yet claim a successful 360K-depth workload or a cyber
+benchmark score.
 
 ## Tests and license
 

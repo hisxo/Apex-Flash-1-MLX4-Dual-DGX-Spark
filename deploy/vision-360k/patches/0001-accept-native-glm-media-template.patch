@@ -1,0 +1,23 @@
+diff --git a/tensorfold/families/glm5_next/cuda/app.py b/tensorfold/families/glm5_next/cuda/app.py
+index 9f642f7..80ff7c3 100644
+--- a/tensorfold/families/glm5_next/cuda/app.py
++++ b/tensorfold/families/glm5_next/cuda/app.py
+@@ -39,0 +40,4 @@
++_IMAGE_SPAN = "<|begin_of_image|><|image|><|end_of_image|>"
++_VIDEO_SPAN = "<|begin_of_video|><|video|><|end_of_video|>"
++
++
+@@ -43 +47 @@
+-    """Swap the checkpoint template's no-media reminder for GLM's image and video markers."""
++    """Use a checkpoint's native GLM media branch, or extend the older no-media template."""
+@@ -46,4 +50,8 @@
+-    if source.count(_NO_MEDIA) != 1:
++    if source.count(_NO_MEDIA) == 1:
++        source = source.replace(_NO_MEDIA, _MEDIA)
++    elif _IMAGE_SPAN in source and _VIDEO_SPAN in source:
++        pass
++    else:
+         raise ValueError("--vision: this checkpoint's chat template has no media branch TensorFold knows how to "
+                          "extend (GLM-5.3 Flash's chat_template.jinja)")
+-    inner.template = inner.template.environment.from_string(source.replace(_NO_MEDIA, _MEDIA))
++    inner.template = inner.template.environment.from_string(source)

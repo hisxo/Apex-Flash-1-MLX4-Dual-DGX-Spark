@@ -47,7 +47,9 @@ docker_options=(
     --gpus all
     --ipc host
     --network host
+    --shm-size "${SHM_SIZE:-16g}"
     --ulimit memlock=-1
+    --ulimit stack=67108864
     --cap-add IPC_LOCK
     --volume "$MODEL_DIR:/model:ro"
     --volume "$CACHE_DIR:/cache"
@@ -56,6 +58,19 @@ docker_options=(
     --env TENSORFOLD_NO_UPDATE_CHECK=1
     --env HF_HUB_OFFLINE=1
 )
+
+for variable in \
+    TF_GLM_KV \
+    TF_GLM_CACHE_GIB \
+    TF_GLM_DRAFT_RING \
+    TENSORFOLD_MEMORY_RESERVE_GIB \
+    TENSORFOLD_GLM_IMAGE_TOKENS \
+    TENSORFOLD_GLM_MAX_IMAGES \
+    TENSORFOLD_GLM_REQUEST_IMAGE_TOKENS; do
+    if [[ -n "${!variable:-}" ]]; then
+        docker_options+=(--env "$variable=${!variable}")
+    fi
+done
 
 if [[ -d /dev/infiniband ]]; then
     docker_options+=(--device /dev/infiniband)
@@ -81,6 +96,11 @@ if [[ "$rank" == 0 ]]; then
     )
 fi
 
+vision_options=()
+if [[ "${VISION:-0}" == 1 ]]; then
+    vision_options=(--vision)
+fi
+
 docker run "${docker_options[@]}" "$IMAGE" serve /model \
     --backend cuda \
     --tp 2 \
@@ -88,10 +108,12 @@ docker run "${docker_options[@]}" "$IMAGE" serve /model \
     --master "$MASTER_ADDR" \
     --master-port "$MASTER_PORT" \
     --context "${CONTEXT:-262144}" \
+    --parallel "${PARALLEL:-1}" \
     --max-tokens "${MAX_TOKENS:-32768}" \
     --reasoning-effort "${REASONING_EFFORT:-high}" \
     --no-update-check \
     "${drafter_options[@]}" \
+    "${vision_options[@]}" \
     "${endpoint_options[@]}"
 
 echo "started $container_name; inspect with: docker logs -f $container_name"

@@ -3,12 +3,13 @@ base_model:
   - cantina-security/apex-flash-1-abliterated
 license: mit
 library_name: tensorfold
-pipeline_tag: text-generation
+pipeline_tag: image-text-to-text
 tags:
   - glm5-next
   - mlx
   - 4-bit
   - dgx-spark
+  - vision
 ---
 
 # Apex Flash 1 MLX4 for Dual DGX Spark
@@ -49,11 +50,13 @@ against the source checkpoint.
 
 ## Intended runtime
 
-- TensorFold 0.6.4
+- TensorFold 0.6.4 for the upstream text-only profile
 - two DGX Spark nodes
 - tensor parallelism 2
-- text-only OpenAI-compatible endpoint
-- 262,144-token configured context window
+- OpenAI-compatible endpoint
+- 262,144-token upstream text profile
+- experimental patched CUDA vision profile with a 360,000-token configured
+  context window
 
 The checkpoint includes the source MTP layer. DFlash2 is optional, separately
 licensed and not included.
@@ -68,8 +71,11 @@ comparison. The abliterated source itself is experimental and has not undergone
 the standard checkpoint's separate full-suite evaluation.
 
 TensorFold 0.6.4 does not support image input for this model on CUDA. The
-configured context window is not a claim of qualification for every workload
-at maximum depth. No performance benchmark claim is made by this model card.
+separate vision profile uses a pinned patched TensorFold 0.5.0 runtime and is
+not an upstream TensorFold feature. Its BF16 vision tower and 360,000-token
+window passed startup plus text/image smoke tests; a prompt filled to the
+maximum depth has not yet been qualified. No cyber-task or throughput claim is
+made without a published benchmark receipt.
 
 Use the model only for authorized activity and review the source model card and
 license before deployment or redistribution.
