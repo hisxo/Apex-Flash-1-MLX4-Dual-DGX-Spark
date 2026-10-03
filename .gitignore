@@ -6,6 +6,7 @@ dist/
 .pytest_cache/
 .ruff_cache/
 .venv/
+uv.lock
 .DS_Store
 
 # Local deployment state

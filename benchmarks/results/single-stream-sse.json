@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "recorded_on": "2026-10-04",
+  "purpose": "Separate OpenAI-compatible SSE transport check; not a Cybench score",
+  "request": {
+    "concurrent_requests": 1,
+    "stream": true,
+    "temperature": 0,
+    "reasoning_effort": "low",
+    "max_output_tokens": 512,
+    "prompt_tokens": 50,
+    "cached_prompt_tokens": 0
+  },
+  "response": {
+    "completion_tokens": 384,
+    "reasoning_tokens": 8,
+    "content_characters": 1767,
+    "sse_output_events": 187
+  },
+  "client_timing_seconds": {
+    "first_sse_event": 0.027681,
+    "first_reasoning_delta": 0.342657,
+    "first_visible_content_delta": 0.548396,
+    "output_span": 10.075035,
+    "wall": 10.420461
+  },
+  "tensorfold_delta": {
+    "requests": 1,
+    "prompt_tokens": 50,
+    "cached_tokens": 0,
+    "completion_tokens": 384,
+    "prefill_seconds": 0.236206,
+    "decode_seconds": 10.147267,
+    "drafted_tokens": 516,
+    "accepted_drafts": 197
+  },
+  "derived": {
+    "server_decode_tokens_per_second": 37.842702,
+    "small_prompt_prefill_tokens_per_second": 211.679636,
+    "transport_output_tokens_per_second": 38.114012,
+    "dflash2_acceptance_percent": 38.178295
+  },
+  "notes": [
+    "TTFT was measured client-side from request start; throughput uses exact API usage and server counter deltas.",
+    "This is one transport sample, not a latency or throughput benchmark distribution."
+  ]
+}
