@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "apex-flash-1-mlx4-dual-dgx-spark"
+version = "0.1.0"
+description = "MLX affine 4-bit conversion of Apex Flash 1 for dual DGX Spark"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+dependencies = [
+  "safetensors>=0.4.5,<1",
+  "torch>=2.4,<3",
+]
+
+[project.optional-dependencies]
+dev = ["ruff==0.16.10"]
+
+[project.scripts]
+apex-mlx4-convert = "apex_mlx4.converter:main"
+apex-mlx4-verify = "apex_mlx4.verifier:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

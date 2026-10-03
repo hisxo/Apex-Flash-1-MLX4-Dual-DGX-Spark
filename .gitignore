@@ -1,0 +1,18 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.venv/
+
+# Local deployment state
+deploy/config.env
+*.log
+*.pid
+
+# Model artifacts are published separately.
+*.safetensors
+model.safetensors.index.json
+SHA256SUMS
