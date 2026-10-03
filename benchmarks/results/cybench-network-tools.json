@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "recorded_at": "2026-10-04T01:37:44Z",
+  "recorded_at": "2026-10-04T01:37:44+02:00",
   "result": {
     "status": "pass",
     "validator": "Cybench exact flag validation",
