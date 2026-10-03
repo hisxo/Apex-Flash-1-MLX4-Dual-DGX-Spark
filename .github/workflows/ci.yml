@@ -22,7 +22,7 @@ jobs:
       - run: ruff format --check .
       - run: >-
           bash -n deploy/start-rank.sh deploy/stop-rank.sh
-          benchmarks/harness/run-delulu.sh
+          benchmarks/harness/run-delulu.sh benchmarks/harness/run-network-tools.sh
       - run: >-
           python -m py_compile benchmarks/harness/install_boxpwnr_adapter.py
           benchmarks/harness/stream_concurrency.py
