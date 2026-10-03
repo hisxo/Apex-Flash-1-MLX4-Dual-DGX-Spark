@@ -1,0 +1,235 @@
+{
+  "schema_version": 1,
+  "recorded_on": "2026-10-04",
+  "purpose": "Isolated OpenAI-compatible SSE concurrency receipt; not a cyber score or a throughput distribution",
+  "request_template": {
+    "stream": true,
+    "temperature": 0,
+    "reasoning_effort": "low",
+    "max_output_tokens": 256,
+    "prompt": "Return exactly 220 repetitions of TOKEN separated by spaces",
+    "prompt_tokens_per_request": 39,
+    "cached_prompt_tokens_per_request": 0
+  },
+  "runtime": {
+    "served_model": "apex-flash-1-abliterated",
+    "tensor_parallel": 2,
+    "hardware": "2 x NVIDIA DGX Spark",
+    "configured_context_tokens": 360000,
+    "scheduler_behavior": "concurrent clients with serialized CUDA decode"
+  },
+  "groups": [
+    {
+      "concurrent_clients": 1,
+      "group_wall_seconds": 2.587315665994538,
+      "request_timings_seconds": [
+        {
+          "wall": 2.586915041989414,
+          "first_sse": 0.010598708991892636,
+          "first_output": 0.21821216700482182,
+          "first_visible_content": 0.34600979200331494
+        }
+      ],
+      "usage": {
+        "prompt_tokens": 39,
+        "cached_tokens": 0,
+        "completion_tokens": 256,
+        "reasoning_tokens": [4]
+      },
+      "tensorfold_health_before": {
+        "requests_total": 115,
+        "prompt_tokens_total": 1240067,
+        "completion_tokens_total": 28304,
+        "prefill_seconds_total": 84.625287,
+        "decode_seconds_total": 563.791197,
+        "cached_tokens_total": 1162580,
+        "rounds_total": 9648,
+        "drafted_total": 31905,
+        "accepted_total": 18556
+      },
+      "tensorfold_health_after": {
+        "requests_total": 116,
+        "prompt_tokens_total": 1240106,
+        "completion_tokens_total": 28560,
+        "prefill_seconds_total": 84.829940,
+        "decode_seconds_total": 566.156388,
+        "cached_tokens_total": 1162580,
+        "rounds_total": 9692,
+        "drafted_total": 32121,
+        "accepted_total": 18768
+      },
+      "tensorfold_delta": {
+        "requests": 1,
+        "prompt_tokens": 39,
+        "cached_tokens": 0,
+        "uncached_prompt_tokens": 39,
+        "completion_tokens": 256,
+        "prefill_seconds": 0.204653,
+        "decode_seconds": 2.365191,
+        "rounds": 44,
+        "drafted_tokens": 216,
+        "accepted_drafts": 212
+      },
+      "derived": {
+        "server_decode_tokens_per_second": 108.2365018300856,
+        "uncached_prefill_tokens_per_second": 190.56647105100475,
+        "completion_tokens_per_group_wall_second": 98.94424687510876,
+        "dflash2_acceptance_percent": 98.14814814814815,
+        "visible_ttft_min_seconds": 0.34600979200331494,
+        "visible_ttft_median_seconds": 0.34600979200331494,
+        "visible_ttft_max_seconds": 0.34600979200331494
+      }
+    },
+    {
+      "concurrent_clients": 2,
+      "group_wall_seconds": 6.294054500001948,
+      "request_timings_seconds": [
+        {
+          "wall": 3.325230541988276,
+          "first_sse": 0.008753417001571506,
+          "first_output": 0.21522724998067133,
+          "first_visible_content": 0.7190417499805335
+        },
+        {
+          "wall": 6.292816374974791,
+          "first_sse": 0.009074041998246685,
+          "first_output": 3.526176791987382,
+          "first_visible_content": 4.323144541995134
+        }
+      ],
+      "usage": {
+        "prompt_tokens": 78,
+        "cached_tokens": 0,
+        "completion_tokens": 512,
+        "reasoning_tokens": [16, 29]
+      },
+      "tensorfold_health_before": {
+        "requests_total": 116,
+        "prompt_tokens_total": 1240106,
+        "completion_tokens_total": 28560,
+        "prefill_seconds_total": 84.829940,
+        "decode_seconds_total": 566.156388,
+        "cached_tokens_total": 1162580,
+        "rounds_total": 9692,
+        "drafted_total": 32121,
+        "accepted_total": 18768
+      },
+      "tensorfold_health_after": {
+        "requests_total": 118,
+        "prompt_tokens_total": 1240184,
+        "completion_tokens_total": 29072,
+        "prefill_seconds_total": 85.233222,
+        "decode_seconds_total": 572.026755,
+        "cached_tokens_total": 1162580,
+        "rounds_total": 9793,
+        "drafted_total": 32585,
+        "accepted_total": 19179
+      },
+      "tensorfold_delta": {
+        "requests": 2,
+        "prompt_tokens": 78,
+        "cached_tokens": 0,
+        "uncached_prompt_tokens": 78,
+        "completion_tokens": 512,
+        "prefill_seconds": 0.403282,
+        "decode_seconds": 5.870367,
+        "rounds": 101,
+        "drafted_tokens": 464,
+        "accepted_drafts": 411
+      },
+      "derived": {
+        "server_decode_tokens_per_second": 87.2177156896666,
+        "uncached_prefill_tokens_per_second": 193.41304595791323,
+        "completion_tokens_per_group_wall_second": 81.34661051947381,
+        "dflash2_acceptance_percent": 88.57758620689656,
+        "visible_ttft_min_seconds": 0.7190417499805335,
+        "visible_ttft_median_seconds": 2.521093145987834,
+        "visible_ttft_max_seconds": 4.323144541995134
+      }
+    },
+    {
+      "concurrent_clients": 4,
+      "group_wall_seconds": 12.784630209003808,
+      "request_timings_seconds": [
+        {
+          "wall": 12.778876999975182,
+          "first_sse": 0.015352333983173594,
+          "first_output": 9.386611791996984,
+          "first_visible_content": 11.143037083995296
+        },
+        {
+          "wall": 6.41059229199891,
+          "first_sse": 0.014929209020920098,
+          "first_output": 3.5123586670088116,
+          "first_visible_content": 4.157257959013805
+        },
+        {
+          "wall": 9.17065499999444,
+          "first_sse": 0.00989087499328889,
+          "first_output": 6.616530667000916,
+          "first_visible_content": 7.17322008300107
+        },
+        {
+          "wall": 3.3107135830214247,
+          "first_sse": 0.010451083013322204,
+          "first_output": 0.21807095801341347,
+          "first_visible_content": 1.6006228330079466
+        }
+      ],
+      "usage": {
+        "prompt_tokens": 156,
+        "cached_tokens": 0,
+        "completion_tokens": 1024,
+        "reasoning_tokens": [64, 31, 19, 60]
+      },
+      "tensorfold_health_before": {
+        "requests_total": 118,
+        "prompt_tokens_total": 1240184,
+        "completion_tokens_total": 29072,
+        "prefill_seconds_total": 85.233222,
+        "decode_seconds_total": 572.026755,
+        "cached_tokens_total": 1162580,
+        "rounds_total": 9793,
+        "drafted_total": 32585,
+        "accepted_total": 19179
+      },
+      "tensorfold_health_after": {
+        "requests_total": 122,
+        "prompt_tokens_total": 1240340,
+        "completion_tokens_total": 30096,
+        "prefill_seconds_total": 86.050307,
+        "decode_seconds_total": 583.952726,
+        "cached_tokens_total": 1162580,
+        "rounds_total": 10008,
+        "drafted_total": 33537,
+        "accepted_total": 19987
+      },
+      "tensorfold_delta": {
+        "requests": 4,
+        "prompt_tokens": 156,
+        "cached_tokens": 0,
+        "uncached_prompt_tokens": 156,
+        "completion_tokens": 1024,
+        "prefill_seconds": 0.817085,
+        "decode_seconds": 11.925971,
+        "rounds": 215,
+        "drafted_tokens": 952,
+        "accepted_drafts": 808
+      },
+      "derived": {
+        "server_decode_tokens_per_second": 85.86302951768033,
+        "uncached_prefill_tokens_per_second": 190.92260903088282,
+        "completion_tokens_per_group_wall_second": 80.09617667930898,
+        "dflash2_acceptance_percent": 84.87394957983193,
+        "visible_ttft_min_seconds": 1.6006228330079466,
+        "visible_ttft_median_seconds": 5.665239021007437,
+        "visible_ttft_max_seconds": 11.143037083995296
+      }
+    }
+  ],
+  "notes": [
+    "Each group started from an idle server and used exact TensorFold health-counter snapshots.",
+    "The repeated-token workload is deliberately deterministic but unusually favorable to speculative decoding; its rates are not comparable to natural cyber output.",
+    "TensorFold's CUDA scheduler served simultaneous client connections by queueing decode work, so this does not demonstrate concurrent CUDA batching."
+  ]
+}

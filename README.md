@@ -216,6 +216,12 @@ general cyber capability. The flag is intentionally omitted. Exact revisions,
 raw counter deltas, formulas, anti-cheating controls and the harness adapter are
 in [`benchmarks`](benchmarks/README.md).
 
+A separate SSE transport check sustained 80.10 aggregate output tokens/s for
+four simultaneous clients, with 1.60/5.67/11.14s minimum/median/maximum visible
+TTFT. TensorFold queues CUDA decode work rather than batching these requests,
+and the synthetic repeated-token workload strongly favors DFlash2. See the
+[exact receipt and limitations](benchmarks/results/stream-concurrency.json).
+
 ## Tests and license
 
 ```bash

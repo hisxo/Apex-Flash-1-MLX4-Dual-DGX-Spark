@@ -80,6 +80,28 @@ The exact snapshots and derived values are in
 check is recorded in [`single-stream-sse.json`](results/single-stream-sse.json);
 it is not part of the Cybench score.
 
+## SSE concurrency receipt
+
+The OpenAI-compatible endpoint was also exercised with isolated groups of one,
+two and four simultaneous streaming clients. Every request produced 256 output
+tokens and every group started while the server was idle.
+
+| Clients | Output | Group wall | Output/group second | Server decode | Visible TTFT min/median/max | DFlash2 acceptance |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | 256 | 2.59s | 98.94 tok/s | 108.24 tok/s | 0.35 / 0.35 / 0.35s | 98.15% |
+| 2 | 512 | 6.29s | 81.35 tok/s | 87.22 tok/s | 0.72 / 2.52 / 4.32s | 88.58% |
+| 4 | 1,024 | 12.78s | 80.10 tok/s | 85.86 tok/s | 1.60 / 5.67 / 11.14s | 84.87% |
+
+This proves simultaneous SSE connection handling, not concurrent CUDA
+batching. TensorFold's CUDA scheduler processes one decode at a time and queues
+the other clients. The deterministic repeated-token prompt is also highly
+favorable to speculative decoding: the 85.86--108.24 tok/s values must not be
+compared with the 50.32 tok/s natural-output Cybench run.
+
+Exact per-request timings, usage and counter deltas are in
+[`stream-concurrency.json`](results/stream-concurrency.json). The generating
+script is [`stream_concurrency.py`](harness/stream_concurrency.py).
+
 ## Reproduction
 
 Install the small OpenAI-compatible provider adapter into the pinned BoxPwnr

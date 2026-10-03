@@ -23,5 +23,7 @@ jobs:
       - run: >-
           bash -n deploy/start-rank.sh deploy/stop-rank.sh
           benchmarks/harness/run-delulu.sh
-      - run: python -m py_compile benchmarks/harness/install_boxpwnr_adapter.py
+      - run: >-
+          python -m py_compile benchmarks/harness/install_boxpwnr_adapter.py
+          benchmarks/harness/stream_concurrency.py
       - run: python -m unittest discover -s tests -v
