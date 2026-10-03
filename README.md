@@ -45,8 +45,8 @@ layers would therefore not be compatible with this dual-DGX CUDA recipe.
 
 Quantization is lossy. The conversion retains the source model's architecture,
 tokenizer, chat template and fine-tuned lineage, but it does not establish
-quality equivalence with the BF16 checkpoint. The controlled validation below
-establishes one successful cyber task, not equivalence with BF16 or a broad
+quality equivalence with the BF16 checkpoint. The controlled validations below
+establish two successful cyber tasks, not equivalence with BF16 or a broad
 model-quality ranking. Cantina Security also identifies the abliterated source
 as experimental and not separately evaluated across the full standard-model
 suite.
